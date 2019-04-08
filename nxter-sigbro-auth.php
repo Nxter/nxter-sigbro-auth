@@ -7,12 +7,9 @@
   Description: Log in via nxt/ardor token
   License: GPLv2 or later.
   License URI: http://www.gnu.org/licenses/gpl-2.0.html
-*/
-  defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
-
-?>
-
+*/?>
 <?php
+  defined('ABSPATH') or die('No script kiddies please!');
 
   function post_json($url, $params, $timeout=3) {
       $res = @file_get_contents($url , false, stream_context_create( array(
@@ -47,12 +44,9 @@
   function sigbro_auth__custom_login_logo() { ?>
       <style type="text/css">
           #login h1 a, .login h1 a {
-            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/images/nxter-logo.png);
-            height:109px;
-            width:110px;
-            background-size: 320px 65px;
+            background-image: url( <?php echo plugin_dir_url(__FILE__);?>/images/nxter-logo.png);
             background-repeat: no-repeat;
-            padding-bottom: 30px;
+            background-color: black;
           }
       </style>
   <?php }

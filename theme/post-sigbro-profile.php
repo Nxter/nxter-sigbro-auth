@@ -55,7 +55,7 @@ if ( ! is_user_logged_in() ) {
 
 <?php get_header('sigbor'); ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> <?php generate_do_microdata( 'article' ); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> > 
 	<div class="inside-article">
 
   <input type="hidden" id="sigbro_auth--session_uuid" value="<?php echo $_SESSION['sigbro_uuid']; ?>" />

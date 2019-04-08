@@ -8,11 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-
-
-
 <?php get_header('sigbor'); ?>
-
 <?php
 
 function gen_uuid() {
@@ -26,9 +22,11 @@ function gen_uuid() {
 }
 
   // checking cookie, if sigbro_uuid exists
+  /*
   session_start([
       'cookie_lifetime' => 900,
       ]);
+  */
 
   //////////////// First of all we should check if POST was send
   if ( isset($_COOKIE['sigbro_uuid']) && isset($_COOKIE['sigbro_token']) ) {
@@ -62,7 +60,7 @@ function gen_uuid() {
       $_SESSION['sigbro_uuid_timestamp'] = round(microtime(true) * 1000);
     }
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> <?php generate_do_microdata( 'article' ); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
 	<div class="inside-article">
 
   <input type="hidden" id="sigbro_auth--session_uuid" value="<?php echo $_SESSION['sigbro_uuid']; ?>" />
