@@ -2,7 +2,7 @@
 /*
   Plugin Name: NXTER SIGBRO AUTH
   Plugin URI: https://www.nxter.org/sigbro
-  Version: 0.1.0
+  Version: 0.2.0
   Author: scor2k 
   Description: Log in via nxt/ardor token
   License: GPLv2 or later.
@@ -13,39 +13,59 @@
 ?>
 
 <?php
-function post_json($url, $params, $timeout=3) {
-    $res = @file_get_contents($url , false, stream_context_create( array(
-                'http' => array(
-                    'method' => 'POST',
-                    'header' => 'Content-type: application/x-www-form-urlencoded',
-                    'content' => http_build_query($params),
-                    'timeout' => $timeout
-                )
-            )));
-    return $res;
-}
 
-function sigbro_auth__redirect_after_login($redirect_to, $request, $user) {
-
-  $prefix = mb_substr($user->user_login, 0, 5);
-  if ( $prefix == 'ARDOR' || $prefix == 'ardor' )  { 
-
-		if ( strlen( get_the_author_meta( 'sigbro_email', $user->ID ) ) > 0 ) {
-      // user already set email
-      return home_url('/', 'relative');
-    } else {
-      return home_url('sigbro-profile', 'relative');
-    }
-
-  } else {
-    return false;
+  function post_json($url, $params, $timeout=3) {
+      $res = @file_get_contents($url , false, stream_context_create( array(
+                  'http' => array(
+                      'method' => 'POST',
+                      'header' => 'Content-type: application/x-www-form-urlencoded',
+                      'content' => http_build_query($params),
+                      'timeout' => $timeout
+                  )
+              )));
+      return $res;
   }
-}
+
+  function sigbro_auth__redirect_after_login($redirect_to, $request, $user) {
+
+    $prefix = mb_substr($user->user_login, 0, 5);
+    if ( $prefix == 'ARDOR' || $prefix == 'ardor' )  { 
+
+      if ( strlen( get_the_author_meta( 'sigbro_email', $user->ID ) ) > 0 ) {
+        // user already set email
+        return home_url('/', 'relative');
+      } else {
+        return home_url('sigbro-profile', 'relative');
+      }
+
+    } else {
+      return false;
+    }
+  }
+
+	/* set nxter logo */
+  function sigbro_auth__custom_login_logo() { ?>
+      <style type="text/css">
+          #login h1 a, .login h1 a {
+            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/images/nxter-logo.png);
+            height:109px;
+            width:110px;
+            background-size: 320px 65px;
+            background-repeat: no-repeat;
+            padding-bottom: 30px;
+          }
+      </style>
+  <?php }
+
+  add_action( 'login_enqueue_scripts', 'sigbro_auth__custom_login_logo' );
+
+  /* set custom url in logo */
+  function sigbro_auth__custom_login_url() {
+    return home_url();
+  }
+  add_filter( 'login_headerurl', 'sigbro_auth__custom_login_url' );
 
 
-?>
-
-<?php
   add_action( 'login_form', 'sigbro_auth__custom_login_form' );
   add_filter( 'authenticate', 'sigbro_auth__custom_authenticate', 10 , 3); 
   add_filter( 'login_redirect', 'sigbro_auth__redirect_after_login', 10, 3);
