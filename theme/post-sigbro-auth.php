@@ -31,19 +31,18 @@ function gen_uuid() {
   //////////////// First of all we should check if POST was send
   if ( isset($_COOKIE['sigbro_uuid']) && isset($_COOKIE['sigbro_token']) ) {
 
+
     $uuid =   htmlspecialchars($_COOKIE['sigbro_uuid']);
     $token =  htmlspecialchars($_COOKIE['sigbro_token']);
 
-    $redirect_location = htmlspecialchars(get_site_url() . "/welcome-nxters/");
-    $redirect_url = "/wp-login.php?redirect_to=". $redirect_location ."&reauth=1";
+    //$redirect_location = htmlspecialchars(get_site_url() . "/");
+    $redirect_url = "/wp-login.php";
 
-    if ( wp_redirect($redirect_url) ) {
+    if ( wp_redirect($redirect_url, 307, "Sigbro-Mobile-App") ) {
       exit();
     } else {
       echo "<h2>Can not redirect you. Try to log in manually.</h2>";
     }
-
-    exit();
 
   } else {
   ////////////////////////////////// START ELSE
