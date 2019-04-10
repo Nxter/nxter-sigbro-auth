@@ -10,3 +10,5 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Wordpress plugin which add authorization via Ardor Token
 
+See at README.md for more information
+

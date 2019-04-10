@@ -1,78 +1,63 @@
-<?php 
+<?php
 /*
 Template Name: SIGBRO Auth
-*/
+ */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+if (!defined('ABSPATH')) {
+    exit; // Exit if accessed directly.
 }
-
 ?>
-<?php get_header('sigbor'); ?>
+
+<?php get_header('sigbor');?>
+
 <?php
 
-function gen_uuid() {
-    return sprintf( '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
-        mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ),
-        mt_rand( 0, 0xffff ),
-        mt_rand( 0, 0x0fff ) | 0x4000,
-        mt_rand( 0, 0x3fff ) | 0x8000,
-        mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff ), mt_rand( 0, 0xffff )
+function gen_uuid()
+{
+    return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+        mt_rand(0, 0xffff),
+        mt_rand(0, 0x0fff) | 0x4000,
+        mt_rand(0, 0x3fff) | 0x8000,
+        mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
     );
 }
 
-  // checking cookie, if sigbro_uuid exists
-  /*
-  session_start([
-      'cookie_lifetime' => 900,
-      ]);
-  */
+//////////////// First of all we should check if POST was send
+if (isset($_COOKIE['sigbro_uuid']) && isset($_COOKIE['sigbro_token'])) {
+    // cookies are set, but redirect not workig
+    echo "<a href='/wp-admin' class='' target=_self>Click to login</a>";
 
-  //////////////// First of all we should check if POST was send
-  if ( isset($_COOKIE['sigbro_uuid']) && isset($_COOKIE['sigbro_token']) ) {
+} else {
+    ////////////////////////////////// START ELSE
 
-
-    $uuid =   htmlspecialchars($_COOKIE['sigbro_uuid']);
-    $token =  htmlspecialchars($_COOKIE['sigbro_token']);
-
-    //$redirect_location = htmlspecialchars(get_site_url() . "/");
-    $redirect_url = "/wp-login.php";
-
-    if ( wp_redirect($redirect_url, 307, "Sigbro-Mobile-App") ) {
-      exit();
-    } else {
-      echo "<h2>Can not redirect you. Try to log in manually.</h2>";
-    }
-
-  } else {
-  ////////////////////////////////// START ELSE
-
-    if ( !isset($_SESSION['sigbro_uuid']) && !isset($_SESSION['sigbro_uuid_timestamp']) ) {
-      $_SESSION['sigbro_uuid'] = gen_uuid();
-      $_SESSION['sigbro_uuid_timestamp'] = round(microtime(true) * 1000);
+    if (!isset($_SESSION['sigbro_uuid']) && !isset($_SESSION['sigbro_uuid_timestamp'])) {
+        $_SESSION['sigbro_uuid'] = gen_uuid();
+        $_SESSION['sigbro_uuid_timestamp'] = round(microtime(true) * 1000);
     }
 
     $delta = round(microtime(true) * 1000) - $_SESSION['sigbro_uuid_timestamp'];
 
-    if ( $delta > 5*60*1000 ) {
-      $_SESSION['sigbro_uuid'] = gen_uuid();
-      $_SESSION['sigbro_uuid_timestamp'] = round(microtime(true) * 1000);
+    if ($delta > 5 * 60 * 1000) {
+        $_SESSION['sigbro_uuid'] = gen_uuid();
+        $_SESSION['sigbro_uuid_timestamp'] = round(microtime(true) * 1000);
     }
-?>
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> >
+    ?>
+<article id="post-<?php the_ID();?>" <?php post_class();?> >
 	<div class="inside-article">
 
   <input type="hidden" id="sigbro_auth--session_uuid" value="<?php echo $_SESSION['sigbro_uuid']; ?>" />
 
   <header class="entry-header">
-    <?php the_title( '<h1 class="entry-title" itemprop="headline">', '</h1>' ); ?>
+    <?php the_title('<h1 class="entry-title" itemprop="headline">', '</h1>');?>
   </header><!-- .entry-header -->
   <?php
-		do_action( 'generate_after_entry_header' );
-  ?>
- 
+do_action('generate_after_entry_header');
+    ?>
+
     <div class="nb row" style="margin-bottom: 2rem;">
-      <div class="nb col-xs-12">
+
+      <div class="nb col-xs-12 col-sm-10 col-md-8 col-lg-6">
         <center>
         <div class="nb alert-success" style="padding: 0 10px 0 10px; " id=""><center>Scan this QR code via SIGBRO Mobile App</center></div>
           <div class="nb input-group">
@@ -84,8 +69,8 @@ function gen_uuid() {
         </center>
         <div class="nb alert-info" style="padding: 0 10px 0 10px; " id=""><center>Or <a href="https://cdn.rawgit.com/Nxter/ARDOR-SigBro-Offline/master/ardor.html" target=_blank style="text-decoration: underline;">create</a> token for this key: '<?php echo $_SESSION['sigbro_uuid']; ?>' by yourself.</center></div>
       </div>
-      <div class="nb col-xs-12" style="margin-top: 10px;">
-       
+
+      <div class="nb col-xs-12 col-sm-10 col-md-8 col-lg-6" style="margin-top: 10px;">
         <div class="nb input-group">
           <span class="nb input-group-addon" id="basic-addon1">Token:</span>
           <input type="password" class="nb form-control" id="sigbro_auth--auth_token" placeholder="Token, created for the key you can see above ^^ " aria-describedby="basic-addon1">
@@ -95,6 +80,7 @@ function gen_uuid() {
         </div>
         <input type="hidden" id="sigbro_auth--auth_uuid" value="<?php echo $_SESSION['sigbro_uuid']; ?>" />
       </div>
+
     </div>
 
     <script>
@@ -133,41 +119,37 @@ function gen_uuid() {
 				xhr.send(params);
 			}
 
-     
+
       function sigbro_auth_login_click() {
         var _uuid = document.getElementById("sigbro_auth--auth_uuid").value;
         var _token = document.getElementById("sigbro_auth--auth_token").value;
-
 				var url = "https://random.nxter.org/api/auth/update";
         var params = { uuid : _uuid, token : _token };
-
         sigbro_sendJSON( url, JSON.stringify(params), 3000, sigbro_callback );
-
         sessionStorage.removeItem("sigbro_uuid_timestamp");
       }
     </script>
 
 		<div class="entry-content" itemprop="text">
-			<?php the_content(); ?>
+			<?php the_content();?>
 		</div><!-- .entry-content -->
 
 		<?php
-		do_action( 'generate_after_content' );
-		?>
+do_action('generate_after_content');
+    ?>
 	</div><!-- .inside-article -->
 </article><!-- #post-## -->
 
 
-<?php 
-    ////////////////////////////////// END ELSE
-  } 
-
+<?php
+////////////////////////////////// END ELSE
+}
 ?>
 
-<?php wp_reset_postdata(); ?>
+<?php wp_reset_postdata();?>
 
-<?php 
-  get_footer('sigbro'); 
+<?php
+get_footer('sigbro');
 ?>
 
 
