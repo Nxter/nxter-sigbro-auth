@@ -2,7 +2,7 @@
 /*
   Plugin Name: NXTER SIGBRO AUTH
   Plugin URI: https://www.nxter.org/sigbro
-  Version: 0.2.0
+  Version: 0.3.0
   Author: scor2k 
   Description: Log in via nxt/ardor token
   License: GPLv2 or later.
@@ -44,9 +44,8 @@
   function sigbro_auth__custom_login_logo() { ?>
       <style type="text/css">
           #login h1 a, .login h1 a {
-            background-image: url( <?php echo plugin_dir_url(__FILE__);?>/images/nxter-logo.png);
+            background-image: url( <?php echo plugin_dir_url(__FILE__);?>/images/nxter-black.png);
             background-repeat: no-repeat;
-            background-color: black;
           }
       </style>
   <?php }
@@ -87,6 +86,9 @@
       if ( strlen($uuid) > 20 && strlen($token) > 100 ) {
   ?>
     <script>
+      var login_form = document.getElementById("loginform");
+      login_form.style.display = "none";
+
       function click_wp_submit() {
         var button = document.getElementById("wp-submit");
         button.click();

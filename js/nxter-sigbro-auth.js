@@ -99,7 +99,9 @@ jQuery(document).ready(function($){
       setCookie('sigbro_uuid', data2.uuid, 15);
       setCookie('sigbro_token', data2.token, 15);
 
-      location.reload();
+      var redirect_url =  window.location.protocol + "//" + window.location.hostname + "/wp-admin/?sigbro=yes"
+      console.log("Redirect to: " + redirect_url);
+      location.href = redirect_url;
 
     } else {
       console.log('RESPONSE HAVE NOT DATA');
