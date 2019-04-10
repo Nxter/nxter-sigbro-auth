@@ -55,9 +55,8 @@ if (isset($_COOKIE['sigbro_uuid']) && isset($_COOKIE['sigbro_token'])) {
 do_action('generate_after_entry_header');
     ?>
 
-    <div class="nb row" style="margin-bottom: 2rem;">
-
-      <div class="nb col-xs-12 col-sm-10 col-md-8 col-lg-6">
+    <div class="nb row" style="margin-bottom: 1rem;">
+      <div class="nb col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
         <center>
         <div class="nb alert-success" style="padding: 0 10px 0 10px; " id=""><center>Scan this QR code via SIGBRO Mobile App</center></div>
           <div class="nb input-group">
@@ -69,8 +68,10 @@ do_action('generate_after_entry_header');
         </center>
         <div class="nb alert-info" style="padding: 0 10px 0 10px; " id=""><center>Or <a href="https://cdn.rawgit.com/Nxter/ARDOR-SigBro-Offline/master/ardor.html" target=_blank style="text-decoration: underline;">create</a> token for this key: '<?php echo $_SESSION['sigbro_uuid']; ?>' by yourself.</center></div>
       </div>
+    </div>
 
-      <div class="nb col-xs-12 col-sm-10 col-md-8 col-lg-6" style="margin-top: 10px;">
+    <div class="nb row" style="margin-bottom: 2rem;">
+      <div class="nb col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3"  style="margin-top: 10px;">
         <div class="nb input-group">
           <span class="nb input-group-addon" id="basic-addon1">Token:</span>
           <input type="password" class="nb form-control" id="sigbro_auth--auth_token" placeholder="Token, created for the key you can see above ^^ " aria-describedby="basic-addon1">
@@ -80,7 +81,6 @@ do_action('generate_after_entry_header');
         </div>
         <input type="hidden" id="sigbro_auth--auth_uuid" value="<?php echo $_SESSION['sigbro_uuid']; ?>" />
       </div>
-
     </div>
 
     <script>

@@ -13,6 +13,9 @@ Wordpress plugin which add authorization via Ardor Token
 
 ## Changelog
 
+#### 2019-04-10 version 0.2.1
+* Deisgn auth form with bootstrap
+
 #### 2019-04-10 version 0.2.0
 * Change Nxter logo
 * Hide login form when do redirect via our plugin
