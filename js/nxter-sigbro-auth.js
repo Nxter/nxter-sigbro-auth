@@ -97,7 +97,7 @@ jQuery(document).ready(function ($) {
         setCookie('sigbro_uuid', data2.uuid, 15);
         setCookie('sigbro_token', data2.token, 15);
 
-        var redirect_url = window.location.protocol + "//" + window.location.hostname + "/wp-admin"
+        var redirect_url = window.location.protocol + "//" + window.location.hostname + "/wp-login.php"
         console.log("Redirect to: " + redirect_url);
         location.href = redirect_url;
       } else {

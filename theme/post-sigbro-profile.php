@@ -21,6 +21,7 @@ if (!is_user_logged_in()) {
         // it is not a sigbro user
         $redirect_url = htmlspecialchars(get_site_url() . "/wp-admin/profile.php");
         wp_redirect($redirect_url);
+        exit();
     }
 
     $user_id = get_current_user_id();

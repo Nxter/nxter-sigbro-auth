@@ -2,7 +2,7 @@
 /*
 Plugin Name: NXTER SIGBRO AUTH
 Plugin URI: https://www.nxter.org/sigbro
-Version: 0.2.1
+Version: 0.2.2
 Author: scor2k
 Description: Log in via nxt/ardor token
 License: GPLv2 or later.

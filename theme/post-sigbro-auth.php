@@ -26,7 +26,7 @@ function gen_uuid()
 //////////////// First of all we should check if POST was send
 if (isset($_COOKIE['sigbro_uuid']) && isset($_COOKIE['sigbro_token'])) {
     // cookies are set, but redirect not workig
-    echo "<a href='/wp-admin' class='' target=_self>Click to login</a>";
+    echo "<a href='/wp-login.php' class='' target=_self>Click to login</a>";
 
 } else {
     ////////////////////////////////// START ELSE
