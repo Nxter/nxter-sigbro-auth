@@ -38,6 +38,11 @@ if (isset($_COOKIE['sigbro_uuid']) && isset($_COOKIE['sigbro_token'])) {
 
     $delta = round(microtime(true) * 1000) - $_SESSION['sigbro_uuid_timestamp'];
 
+    if ( isset($_COOKIE['sigbro_token_refresh']) ) { 
+      $delta = 1000000;
+      unset($_COOKIE['sigbro_token_refresh']);
+    }
+
     if ($delta > 5 * 60 * 1000) {
         $_SESSION['sigbro_uuid'] = gen_uuid();
         $_SESSION['sigbro_uuid_timestamp'] = round(microtime(true) * 1000);
@@ -55,8 +60,10 @@ if (isset($_COOKIE['sigbro_uuid']) && isset($_COOKIE['sigbro_token'])) {
 do_action('generate_after_entry_header');
     ?>
 
+		<div class="entry-content" itemprop="text">
+
     <div class="nb row" style="margin-bottom: 1rem;">
-      <div class="nb col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+      <div class="nb col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
         <center>
         <div class="nb alert-success" style="padding: 0 10px 0 10px; " id=""><center>Scan this QR code via SIGBRO Mobile App</center></div>
           <div class="nb input-group">
@@ -71,17 +78,23 @@ do_action('generate_after_entry_header');
     </div>
 
     <div class="nb row" style="margin-bottom: 2rem;">
-      <div class="nb col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3"  style="margin-top: 10px;">
+      <div class="nb col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2"  style="margin-top: 10px;">
         <div class="nb input-group">
           <span class="nb input-group-addon" id="basic-addon1">Token:</span>
           <input type="password" class="nb form-control" id="sigbro_auth--auth_token" placeholder="Token, created for the key you can see above ^^ " aria-describedby="basic-addon1">
           <span class="input-group-btn">
             <input class="nb btn btn-default" id="sigbto_auth--auth_button" type="button" value="Login" onclick="sigbro_auth_login_click()" />
           </span>
+          <span class="input-group-btn">
+            <input class="nb btn btn-default" id="sigbto_auth--refresh_token" type="button" value="Refresh" onclick="sigbro_auth_refresh_click()" />
+          </span>
         </div>
         <input type="hidden" id="sigbro_auth--auth_uuid" value="<?php echo $_SESSION['sigbro_uuid']; ?>" />
       </div>
     </div>
+
+    </div>
+
 
     <script>
 			function sigbro_callback() {
@@ -127,6 +140,12 @@ do_action('generate_after_entry_header');
         var params = { uuid : _uuid, token : _token };
         sigbro_sendJSON( url, JSON.stringify(params), 3000, sigbro_callback );
         sessionStorage.removeItem("sigbro_uuid_timestamp");
+      }
+
+
+      function sigbro_auth_refresh_click() {
+        document.cookie = "sigbro_token_refresh" + "=" + "pleeease" + "; path=/";
+        location.reload();
       }
     </script>
 
