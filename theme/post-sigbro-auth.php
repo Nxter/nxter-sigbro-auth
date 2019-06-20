@@ -65,6 +65,7 @@ do_action('generate_after_entry_header');
     <div class="nb row" style="margin-bottom: 1rem;">
       <div class="nb col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
         <center>
+        <div class="nb alert-success hidden-lg" style="padding: 10px 10px 10px 10px; margin-bottom: 10px;" id=""><center><a href="sigbro://<?php echo $_SESSION['sigbro_uuid']; ?>" class="nb btn btn-danger hidden-lg">OPEN IN SIGBRO MOBILE</a></center></div>
         <div class="nb alert-success" style="padding: 0 10px 0 10px; " id=""><center>Scan this QR code via SIGBRO Mobile App</center></div>
           <div class="nb input-group">
               <svg xmlns="http://www.w3.org/2000/svg" id="sigbro_auth--qr_code_sigbromobile" style="width:20em; height: 20em; display:none">
