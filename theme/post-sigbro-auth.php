@@ -74,7 +74,7 @@ do_action('generate_after_entry_header');
               </svg>
           </div>
         </center>
-        <div class="nb alert-info" style="padding: 0 10px 0 10px; " id=""><center>Or <a href="https://cdn.rawgit.com/Nxter/ARDOR-SigBro-Offline/master/ardor.html" target=_blank style="text-decoration: underline;">create</a> token for this key: '<?php echo $_SESSION['sigbro_uuid']; ?>' by yourself.</center></div>
+        <div class="nb alert-info" style="padding: 0 10px 0 10px; " id=""><center>Or <a href="https://nxter.github.io/ARDOR-SigBro-Offline/" target=_blank style="text-decoration: underline;">create</a> token for this key: '<?php echo $_SESSION['sigbro_uuid']; ?>' by yourself.</center></div>
       </div>
     </div>
 
